@@ -27,7 +27,7 @@ import time
 from objects.TA2_logic import TA2Logic
 
 # DQN network
-from sota_util.phase_3.dqn.cartpole_agent import Simple
+from sota_util.cartpole.cartpole_agent import Simple
 
 
 class TA2Agent(TA2Logic):

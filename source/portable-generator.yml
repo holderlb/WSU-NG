@@ -1,6 +1,24 @@
 version: '2'
 
 services:
+
+  # Sample Agent
+  mockn-demo-ta2:
+    # The volume we mount determines which config files will be available to the services.
+    volumes:
+      - ./agents/configs/demo:/aiq-sail-on/config:rw
+      - ./logs:/aiq-sail-on/logs:rw
+    build:
+      context: ./agents
+      dockerfile: Dockerfile-SOTA-agent
+    command: python -u SOTA-vizdoom.py --config=config/demo-vizdoom.config --printout --logfile=logs/log.txt
+    links:
+      - rabbit
+    depends_on:
+      - rabbit
+      - pgdb
+      - mockn-ta1
+
   rabbit:
     hostname: rabbit
     image: rabbitmq:3.8
@@ -23,8 +41,6 @@ services:
       - POSTGRES_DB=aiq_data_v0_6
 
   # The TA1 service.
-  # We use a custom service name for each service variant so we can have multiple versions
-  # running at the same time, just with slightly modified docker-compose files.
   mockn-ta1:
     volumes:
       - ./domains/WSU-Portable-Generator/configs/partial:/aiq-sail-on/config:rw
@@ -41,8 +57,6 @@ services:
       - pgdb
 
   # The cartpole service.
-  # We use a custom service name for each service variant so we can have multiple versions
-  # running at the same time, just with slightly modified docker-compose files.
   mockn-gen-cartpole:
     build:
       context: ./domains/WSU-Portable-Generator
@@ -57,35 +71,12 @@ services:
       - mockn-ta1
 
   # The vizdoom service.
-  # We use a custom service name for each service variant so we can have multiple versions
-  # running at the same time, just with slightly modified docker-compose files.
   mockn-gen-vizdoom:
     build:
       context: ./domains/WSU-Portable-Generator
       dockerfile: Dockerfile-PARTIAL-GENERATOR
     command: python -u GENERATOR.py --domain=vizdoom --config=config/generator.config --printout
     restart: always
-    links:
-      - rabbit
-    depends_on:
-      - rabbit
-      - pgdb
-      - mockn-ta1
-
-  # The TA2 demo agent.
-  # We use a custom service name for each service variant so we can have multiple versions
-  # running at the same time, just with slightly modified docker-compose files.
-
-  # NG Version
-  mockn-demo-ta2:
-    # The volume we mount determines which config files will be available to the services.
-    volumes:
-      - ./agents/configs/demo:/aiq-sail-on/config:rw
-      - ./logs:/aiq-sail-on/logs:rw
-    build:
-      context: ./agents
-      dockerfile: Dockerfile-SOTA-agent
-    command: python -u SOTA-cartpole.py --config=config/demo-cartpole.config --printout --logfile=logs/log.txt
     links:
       - rabbit
     depends_on:

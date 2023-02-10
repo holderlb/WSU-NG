@@ -42,7 +42,7 @@ class Simple:
         dqn = DQNAgent(model=model, nb_actions=self.nb_actions, memory=memory, nb_steps_warmup=10,
                        target_model_update=1e-2, policy=policy)
         dqn.compile(Adam(lr=1e-3), metrics=['mae'])
-        dqn.load_weights('sota_util/phase_3/dqn/8.h5f')
+        dqn.load_weights('sota_util/cartpole/cartpole_weights.h5f')
 
         # Save to self
         self.agent = dqn
