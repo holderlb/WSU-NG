@@ -1,5 +1,5 @@
 # Ignore database dir
-source/logs
+src/logs
 
 # Ingore pycharm
 .idea

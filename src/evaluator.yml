@@ -11,7 +11,7 @@ services:
     build:
       context: ./agents
       dockerfile: Dockerfile-SOTA-agent
-    command: python -u SOTA-vizdoom.py --config=config/demo-vizdoom.config --printout --logfile=logs/log.txt
+    command: python -u SOTA-cartpole.py --config=config/demo-cartpole.config --printout --logfile=logs/log.txt
     links:
       - rabbit
     depends_on:
