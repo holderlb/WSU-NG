@@ -4,6 +4,9 @@ src/logs
 # Ingore pycharm
 .idea
 
+# Ignore docs
+docs
+
 ## =================== Generic Python Ignores =================== ##
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -1,14 +1,14 @@
-## WSU-NG
+### WSU-NG
 Novelty Generator for the evaluation of novelty-aware AI agents
 
 ---
-## Installation
+### Installation
 * Requirements:
   * [docker](https://docs.docker.com/engine/install/ubuntu/)
   * [docker-compose](https://docs.docker.com/compose/install/)
 
 ---
-## Quick Start
+### Quick Start
 To build the sample agent:
 ```
 docker-compose -f evaluator.yml build
@@ -27,11 +27,11 @@ docker-compose -f evaluator.yml down
 ```
 
 ---
-## Adding a custom agent
-Custom agents can be easily added 
+### Adding a custom agent
+Custom agents can be easily added through the use of docker.
 
 ---
-## Notes
+### Notes
 * Both the Cartpole3D and ViZDoom novelty generators startup when calling the evaluation compose file.
 * 
 
