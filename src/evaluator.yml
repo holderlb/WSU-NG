@@ -3,7 +3,7 @@ version: '2'
 services:
 
   # Sample Agent
-  mockn-demo-ta2:
+  sample-agent:
     # The volume we mount determines which config files will be available to the services.
     volumes:
       - ./agents/configs/demo:/aiq-sail-on/config:rw
