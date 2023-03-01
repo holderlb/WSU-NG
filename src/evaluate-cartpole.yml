@@ -1,0 +1,89 @@
+version: '2'
+
+services:
+
+  # Sample Agent
+  sample-agent:
+    # The volume we mount determines which config files will be available to the services.
+    volumes:
+      - ./agents/configs/demo:/aiq-sail-on/config:rw
+      - ./logs:/aiq-sail-on/logs:rw
+    build:
+      context: ./agents
+      dockerfile: Dockerfile-SOTA-agent
+    command: python -u SOTA-cartpole.py --config=config/demo-cartpole.config --printout --logfile=logs/log.txt
+    links:
+      - rabbit
+    depends_on:
+      - rabbit
+      - pgdb
+      - mockn-ta1
+
+#  # Sota Agent (do not modify!)
+#  cartpole-sota:
+#    volumes:
+#      - ./agents/configs/demo:/aiq-sail-on/config:rw
+#      - ./logs:/aiq-sail-on/logs:rw
+#    build:
+#      context: ./agents
+#      dockerfile: Dockerfile-SOTA-agent
+#    command: python -u SOTA-cartpole.py --config=config/demo-cartpole.config --printout --logfile=logs/log.txt
+#    links:
+#      - rabbit
+#    depends_on:
+#      - rabbit
+#      - pgdb
+#      - mockn-ta1
+
+  # Communications handler
+  rabbit:
+    hostname: rabbit
+    image: rabbitmq:3.8
+    restart: always
+    environment:
+      - RABBITMQ_DEFAULT_USER=bunny
+      - RABBITMQ_DEFAULT_PASS=gvC1Ik5i3w
+
+  # Database handler
+  pgdb:
+    hostname: pgdb
+    volumes:
+      - ./logs/database:/var/lib/postgresql/data
+    build:
+      context: ./domains/WSU-Portable-Generator
+      dockerfile: Dockerfile-PostgreSQL
+    restart: always
+    environment:
+      - POSTGRES_USER=aiq_user
+      - POSTGRES_PASSWORD=gvC1Ik5i3w
+      - POSTGRES_DB=aiq_data_v0_6
+
+  # Generator handler
+  mockn-ta1:
+    volumes:
+      - ./domains/WSU-Portable-Generator/configs/partial:/aiq-sail-on/config:rw
+    build:
+      context: ./domains/WSU-Portable-Generator
+      dockerfile: Dockerfile-PARTIAL-TA1
+    command: python -u TA1.py --config=config/TA1.config --printout
+    restart: always
+    links:
+      - rabbit
+      - pgdb
+    depends_on:
+      - rabbit
+      - pgdb
+
+  # Cartpole domain generator
+  mockn-gen-cartpole:
+    build:
+      context: ./domains/WSU-Portable-Generator
+      dockerfile: Dockerfile-PARTIAL-GENERATOR
+    command: python -u GENERATOR.py --domain=cartpole --config=config/generator.config --printout
+    restart: always
+    links:
+      - rabbit
+    depends_on:
+      - rabbit
+      - pgdb
+      - mockn-ta1

@@ -19,6 +19,15 @@ services:
       - pgdb
       - mockn-ta1
 
+  # Sota Agent (do not modify!)
+  cartpole-sota:
+    volumes:
+      - ./configs/uccs:/aiq-sail-on/config:rw
+    build:
+      context: ./
+      dockerfile: Dockerfile-SOTA-cartpole
+    command: python -u SOTA-cartpole.py --config=config/SOTA-cartpole.config --printout
+
   rabbit:
     hostname: rabbit
     image: rabbitmq:3.8
