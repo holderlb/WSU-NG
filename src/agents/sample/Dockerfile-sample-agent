@@ -8,9 +8,9 @@ RUN pip install -r requirements.txt
 ADD source/objects /aiq-sail-on/objects/
 
 # Load SOTA.py
-ADD source/sota_util /aiq-sail-on/sota_util/
-ADD source/SOTA-cartpole.py /aiq-sail-on/SOTA-cartpole.py
-ADD source/SOTA-vizdoom.py /aiq-sail-on/SOTA-vizdoom.py
+ADD source/random_action.py /aiq-sail-on
+ADD source/sample-cartpole.py /aiq-sail-on
+ADD source/sample-vizdoom.py /aiq-sail-on
 
 # Change local dir
 WORKDIR /aiq-sail-on/

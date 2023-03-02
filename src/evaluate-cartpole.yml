@@ -6,12 +6,12 @@ services:
   sample-agent:
     # The volume we mount determines which config files will be available to the services.
     volumes:
-      - ./agents/configs/demo:/aiq-sail-on/config:rw
+      - ./agents/sample/configs/demo:/aiq-sail-on/config:rw
       - ./logs:/aiq-sail-on/logs:rw
     build:
-      context: ./agents
-      dockerfile: Dockerfile-SOTA-agent
-    command: python -u SOTA-cartpole.py --config=config/demo-cartpole.config --printout --logfile=logs/log.txt
+      context: ./agents/sample
+      dockerfile: Dockerfile-sample-agent
+    command: python -u sample-cartpole.py --config=config/demo-cartpole.config --printout --logfile=logs/log.txt
     links:
       - rabbit
     depends_on:
@@ -43,6 +43,8 @@ services:
     environment:
       - RABBITMQ_DEFAULT_USER=bunny
       - RABBITMQ_DEFAULT_PASS=gvC1Ik5i3w
+    logging:
+      driver: "none"
 
   # Database handler
   pgdb:
@@ -57,6 +59,8 @@ services:
       - POSTGRES_USER=aiq_user
       - POSTGRES_PASSWORD=gvC1Ik5i3w
       - POSTGRES_DB=aiq_data_v0_6
+    logging:
+      driver: "none"
 
   # Generator handler
   mockn-ta1:
@@ -87,3 +91,5 @@ services:
       - rabbit
       - pgdb
       - mockn-ta1
+    logging:
+      driver: "none"
