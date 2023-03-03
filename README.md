@@ -47,7 +47,7 @@ In `evaluator-[cartpole, vizdoom].yml` under `sample-agent:`:
   * `dockerfile: <filename>` where `<filename>` is your dockerfile's name.
 * Set ``command: <cmd>`` where `<cmd>` is your docker entry point command.
 
-For more information on agent integration see the agent [README.md](src%2Fagents%2FREADME.md).
+For more information on agent integration see the agent [README.md](src%2Fagents%2FREADME.md).[README.md](src%2Fagents%2FREADME.md)
 
 ### Python agents
 
